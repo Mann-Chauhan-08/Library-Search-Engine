@@ -18,9 +18,10 @@ To optimize search queries, the system indexes the dataset simultaneously using 
 
 * **Dual-Indexing Architecture:** A single `Book` struct is utilized across four different logical frameworks simultaneously using a multi-pointer architecture (`tleft`, `tright`, `tnxHash`, `tnxBST`, etc.) to prevent memory duplication.
 * **Iterative BST Insertion:** Refactored standard recursive tree insertion into an **iterative `while(1)` loop**. This successfully eliminates Stack Overflow limits when importing alphabetically pre-sorted real-world CSV datasets.
+* **Hybrid BST-Linked List Architecture:** Real library data contains duplicates (multiple copies of the same book, or many books by one author). Instead of letting duplicate keys skew the tree or overwrite data, I engineered a custom solution by embedding **Linked Lists directly inside the BST nodes**. Exact matches are appended to the node's internal chain, completely solving the duplicate-key limitation of standard BSTs.
 * **Hash Collision Management:** Implemented a polynomial rolling hash function modulo `13,681` (a prime number) with Separate Chaining. Achieved a highly optimal effective load factor (averaging ~1.78 for Titles).
-* **Robust ETL Pipeline:** Engineered a custom, crash-proof `safestoi()` function to safely bypass standard C++ library limitations when handling hidden carriage returns (`\r`) and messy CSV anomalies.
 * **Real-World Borrow/Return:** Integrated a "soft-deletion" pointer mechanism (using a `status` boolean) to reflect library check-outs without destroying pointer integrity, automatically rewriting state changes to persistent local storage.
+* **Robust ETL Pipeline:** Engineered a custom, crash-proof `safestoi()` function to safely bypass standard C++ library limitations when handling hidden carriage returns (`\r`) and messy CSV anomalies.
 
 ## 🛠️ How to Run Locally
 
